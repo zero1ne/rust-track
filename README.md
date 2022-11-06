@@ -10,9 +10,7 @@ Here you will find short ( or not so short ) instructions on how to send tasks.
 - Create a new project with `cargo new --lib solution`
 - Write a solution in `src/lib.rs`
 - **Perform the sample test.**
-    
     If your code is not compiled on the sample test, you will receive 0 points.
-    
 - Check that the types of functions and structures are the same ones we have described in the condition. If you decide to return type `Foo&Foo`instead of the type described, our tests just won't compile and you'll get 0 points.
 - Do not use external libraries ( you cannot upload them to the ) interface.
 - Do not share your decision with anyone.
@@ -48,25 +46,17 @@ The testing is done using the command `cargo test`.
 
 ## Sample
 
-With each task we publish an example test in [GitHub repository](http://github.com/fmi/rust-homework). Mandatory **download the test and run it**. Tasks are automatically checked with tests, and if your code is not compiled with the base test, it will not be compiled during the check. As a result of which you will get 0 points.
+Fpr each task there are example tests. Mandatory **download the test and run it for eacah test**. Tasks are automatically checked with tests, and if your code is not compiled with the base test, it will not be compiled during the check. As a result of which you will get 0 points.
 
 If the base test is compiled but not passed, you do not appear to have implemented something right - you can still run a homework for which you can earn a partial number of points. However, we strongly advise you to just start earlier with homework and decide it completely.
 
 To run the test:
 
-- Save the test file as `tests/test_basic.rscargo new`
-    
-    ( in the project initialized above with
-    
-    )
-    
+- Save the test file as `tests/test_basic.rs` (in the project initialized above with `cargo new`)
 - Follow the following command:
-    
     ```
     $ cargo test
-    
     ```
-    
 For more information on testing in Rust, read [this chapter in the documentation](https://doc.rust-lang.org/book/ch11-01-writing-tests.html).
 
 ## More tips
