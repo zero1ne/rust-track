@@ -4,7 +4,7 @@ This challenge task will involve displaying the rooms in the dungeon from the pr
 
 Let's consider the `Room` structure from challenge 04 to be like below:
 
-```
+```rust
 pub struct Room {
     pub name: String,
     pub north: String,
@@ -16,7 +16,7 @@ pub struct Room {
 
 Define a `Display` implementation to allow us to visualize a room and its neighbors:
 
-```
+```rust
 let room = Room {
     name: String::from("Living Room"),
     north: String::from("Balcony"),
@@ -50,7 +50,7 @@ Let's go through the rules:
 - We expect no trailing whitespace after the text. That is, if you find a way somewhere in the standard library to center, great, but note that "center" means padding with spaces and to the right, which will fail the test below.
 - We expect the first character written to be exactly one newline (symbol `\n`). So that if we print with `println!`, we can make sure that it starts on a new line. At the end of the string, however, no new line is output -- `println!` would print. You should pass the test below, basically.
 
-```
+```rust
 #[test]
 fn test_short() {
     let room = Room {

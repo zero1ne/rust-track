@@ -8,7 +8,7 @@ Consider the 2D matrix below dimensional elements.
 
 Given the inputs `rows` and `cols`, we start by constructing and iterating arrays (with `rows * cols` elements divided into `rows` number of size `cols` array) and cells of elements:
 
-```
+```rust
 #[derive(Debug)]
 pub struct Matrix<T> {
     // TODO
@@ -48,7 +48,7 @@ We expect you to implement the `Iterator` trait for both `RowIter` and `ColIter`
 
 Here is an example test that should compile and run:
 
-```
+```rust
 #[test]
 fn test_iteration_0() {
     let data = [1, 2,

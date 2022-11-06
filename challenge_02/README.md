@@ -4,7 +4,7 @@ Surprisingly, the cult film The Matrix is ​​getting a 4th version soon. The 
 
 We start by constructing and iterating arrays (with four elements divided into two rows) and cells of elements:
 
-```
+```rust
 #[derive(Debug)]
 pub struct Matrix<T: Clone> {
     // Fields you need
@@ -60,7 +60,8 @@ What data to store in the matrix? You can store the elements as given and constr
 
 Notice that we put derived types on both structs: `Debug`, `Clone`, `PartialEq`. Leave them as we gave them, although technically it doesn't stop you from implementing them yourself (you don't have to).
 
-(Hide: can't you write your own implementation of `PartialEq` that just says all cells are equal to each other and sneak through the tests? You can! And if you do, we'll sigh heavily and have to copy-paste eg `assert_ne!(Cell(0), Cell(1))` in each of the affected tests. Please don't.)
+(**Hide**: can't you write your own implementation of `PartialEq` that just says all cells are equal to each other and sneak through the tests? You can! And if you do, we'll sigh heavily and have to copy-paste eg `assert_ne!(Cell(0), Cell(1))` in each of the affected tests. Please don't.)
+
 
 ## Collection and multiplication of cells
 
@@ -68,14 +69,14 @@ Now we start with the more interesting stuff. Matrices and cells are generic, bu
 
 How to add a number-cell to a string-cell? If the number is positive or zero, we simply concatenate the two things as a string with a space between them:
 
-```
+```rust
 assert_eq!(Cell(22) + Cell(String::from("years ago")), Cell(String::from("22 years ago")))
 assert_eq!(Cell(0) + Cell(String::from("expectation")), Cell(String::from("0 expectation")))
 ```
 
 If the number is negative, we reverse the text of the string and put it before the number by absolute value:
 
-```
+```rust
 assert_eq!(Cell(-4) + Cell(String::from("xirtam")), Cell(String::from("matrix 4")))
 ```
 
@@ -83,18 +84,19 @@ We expect you to implement only collection of `Cell<i32>` on the left with `Cell
 
 How to multiply a number-cell by a string-cell? If the number is positive or zero, we repeat the string this many times:
 
-```
+```rust
 assert_eq!(Cell(3) * Cell(String::from("boom!")), Cell(String::from("boom!boom!boom!")))
 assert_eq!(Cell(0) * Cell(String::from("boom?")), Cell(String::from("")))
 ```
 
 If the number is negative, we reverse the string text and repeat it that many times
 
-```
+```rust
 assert_eq!(Cell(-3) * Cell(String::from(",regdab")), Cell(String::from("badger,badger,badger,")))
 ```
 
 Just like the above example, the multiplication has `Cell<i32>` on the left side and `Cell<String>` on the right, and the result is `Cell<String>`. Trait is [std::ops::Mul](https://doc.rust-lang.org/stable/std/ops/trait.Mul.html)
+
 
 ## Addition and multiplication of matrices
 
@@ -118,6 +120,7 @@ Here, "addition" and "multiplication" work according to the rules of the cells a
 - `Matrix<i32>` * `Matrix<String>` = `String`
 
 Traits as above are [std::ops::Add](https://doc.rust-lang.org/stable/std/ops/trait.Add.html) and [std::ops::Mul](https://doc.rust-lang.org/stable/std/ops/trait.Mul.html).
+
 
 ## Important
 

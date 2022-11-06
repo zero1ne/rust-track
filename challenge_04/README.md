@@ -4,7 +4,7 @@
 
 First, the basic type definitions we'll be working with:
 
-```
+```rust
 /// The various errors we'll expect to return as a result of some invalid operation.
 /// More details below:
 ///
@@ -43,11 +43,12 @@ pub struct Dungeon {
 }
 ```
 
-##Building Dungeon
+
+## Building Dungeon
 
 We have a `Dungeon` structure, what to do with it?
 
-```
+```rust
 impl Dungeon {
     /// Constructs an empty Dungeon that does not have any rooms.
     ///
@@ -104,7 +105,7 @@ impl Dungeon {
 
 Here's an example dungeon build:
 
-```
+```rust
 let mut dungeon = Dungeon::new();
 
 dungeon.add_room("Entrance").unwrap();
@@ -119,7 +120,7 @@ Note what we noted above -- adding a link from "Entrance" to "Hallway" in the ea
 
 Is it possible to construct two links that are overwritten? Yes, no problem:
 
-```
+```rust
 let mut dungeon = Dungeon::new();
 
 dungeon.add_room("Entrance").unwrap();
@@ -137,7 +138,8 @@ We go east from the entrance and find ourselves in a corridor. We return to the 
 
 It is also quite possible to create a connection from one room to the same room. It can also have no loop.
 
-(Hint: If you're wondering exactly how to store the data in Room structures so that you can easily access them by name, a HashMap is probably the easiest option.)
+(**Hint**: If you're wondering exactly how to store the data in Room structures so that you can easily access them by name, a HashMap is probably the easiest option.)
+
 
 ## Parsing
 
@@ -156,7 +158,7 @@ Here's an example file we'll want to be able to read that follows the structure 
 
 Here is the structure of the function we will use:
 
-```
+```rust
 impl Dungeon {
     /// We read the dungeon structure from something that implements `BufRead`. This could be it
     /// file, or, if we're testing, it could just be a collection of bytes.
@@ -193,7 +195,7 @@ In case the function is passed an empty reader, we expect a `LineParseError` wit
 
 Here's the prototype of a helper function that we won't test directly (it's not `pub`, we won't call it in the tests), but it might make your life easier:
 
-```
+```rust
 /// match_prefix("- ", "- Foo") //=> Some("Foo")
 /// match_prefix("- ", "Bar")   //=> None
 ///
@@ -206,11 +208,12 @@ You are free to use it or not, you are free to write a different similar functio
 
 Finally, after we have constructed a dungeon, let's do something interesting with it.
 
+
 ## Pathfinding
 
 It would make sense to do things like find a path to the treasure that bypasses opponents, or maybe seek out opponents for maximum conflict and leveling up. Of course, we don't have treasure, enemies, or levels here, so let's just write a simple wayfinding from one room to another:
 
-```
+```rust
 impl Dungeon {
     /// Searches for a path from `start_room_name` to `end_room_name` and returns it in a vector packed in
     /// `Ok(Some(` if found.
@@ -247,6 +250,7 @@ Something easy you can use is [Breadth-first search](https://en.wikipedia.org/wi
    - If so, we must construct our way back to the beginning, parent by parent. We start with the end room and its parent, and we put them into a vector, we keep taking the front parent and the front parent until we get to a room with no parent -- that will be the starting one. We return the path in "straight" order -- start to end room.
 
 If it seems disturbingly complicated -- try it, go step by step, it will work. If it seems boringly simple, by all means implement whatever search interests you.
+
 
 ## Advices
 
