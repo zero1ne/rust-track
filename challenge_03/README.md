@@ -1,6 +1,6 @@
 # Iterating matrices
 
-From the previous challenge task 2, instead of .by_row() and .by_col() returning vectors, it would be much more flexible if they were iterators -- you can collect them in a vector, you can iterate them by reference. 
+From the previous challenge task 2, instead of `.by_row()` and `.by_col()` returning vectors, it would be much more flexible if they were iterators -- you can collect them in a vector, you can iterate them by reference. 
 
 So here it is!
 

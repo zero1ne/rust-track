@@ -43,12 +43,12 @@ Entrance - | Living Room | - Kitchen
 
 Let's go through the rules:
 
-- The room name is surrounded by a box that has + symbols in the corners and N and S above and below centered on the sides of the box. If the room name has an even number of characters like "Living Room", add a space at the end to make it odd (so that the N and S are always right in the middle).
+- The room name is surrounded by a box that has `+` symbols in the corners and `N` and `S` above and below centered on the sides of the box. If the room name has an even number of characters like "Living Room", add a space at the end to make it odd (so that the `N` and `S` are always right in the middle).
 - The same goes for centering the north and south rooms -- if "center" is between two characters, assume there is an extra space to the right. When centering "Place" for example, the dash is above the "a" and not above the "l".
-- The square brackets ([]) are aligned with the walls of the room box. You can assume that neither north nor south room will be longer than name -- we won't test with such examples. (If you want to implement this case, an option is to trim off too-long names, just as it's an option to choose the maximum length among the three for common.)
+- The square brackets (`[]`) are aligned with the walls of the room box. You can assume that neither north nor south room will be longer than `name` -- we won't test with such examples. (If you want to implement this case, an option is to trim off too-long names, just as it's an option to choose the maximum length among the three for common.)
 - Also assume that we won't be testing with empty strings for rooms.
 - We expect no trailing whitespace after the text. That is, if you find a way somewhere in the standard library to center, great, but note that "center" means padding with spaces and to the right, which will fail the test below.
-- We expect the first character written to be exactly one newline (symbol \n). So that if we print with println!, we can make sure that it starts on a new line. At the end of the string, however, no new line is output -- println! would print. You should pass the test below, basically.
+- We expect the first character written to be exactly one newline (symbol `\n`). So that if we print with `println!`, we can make sure that it starts on a new line. At the end of the string, however, no new line is output -- `println!` would print. You should pass the test below, basically.
 
 ```
 #[test]

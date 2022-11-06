@@ -1,6 +1,6 @@
 # Dungeons and Compilers
 
-Zork is one of the classic PC games -- you are in a dungeon room, you choose whether to travel north, east, etc. The rooms have treasures, enemies, and various flavor text. We will write the basics of some such game.
+[Zork](https://en.wikipedia.org/wiki/Zork) is one of the classic PC games -- you are in a dungeon room, you choose whether to travel north, east, etc. The rooms have treasures, enemies, and various flavor text. We will write the basics of some such game.
 
 First, the basic type definitions we'll be working with:
 
@@ -171,27 +171,27 @@ impl Dungeon {
 }
 ```
 
-The first line should always be ## Rooms. Otherwise, return LineParseError with line_number 1. After that, each subsequent line is expected to either start with `-` and the name of the room to add (add_room), or an empty line, which means we're done adding rooms. If it's anything else, LineParseError with the corresponding line (first line is 1).
+The first line should always be `## Rooms`. Otherwise, return `LineParseError` with line number 1. After that, each subsequent line is expected to either start with `-` and the name of the room to add (`add_room`), or an empty line, which means we're done adding rooms. If it's anything else, `LineParseError` with the corresponding line (first line is 1).
 
-Any errors that may occur when calling add_room are expected to be returned by this function if they occur.
+Any errors that may occur when calling `add_room` are expected to be returned by this function if they occur.
 
-Any std::io::Error errors when reading the reader are expected to be wrapped in Errors::IoError and returned.
+Any `std::io::Error` errors when reading the reader are expected to be wrapped in `Errors::IoError` and returned.
 
-The next line is expected to be exactly ## Links. Otherwise, we expect a LineParseError with the line number. From there, all subsequent lines should have the form:
+The next line is expected to be exactly `## Links`. Otherwise, we expect a `LineParseError` with the line number. From there, all subsequent lines should have the form:
 
 ```
 - <room name> -> <direction> -> <other room>
 ```
 
-That is, the row starts with the string "- ", and individual rooms are separated by the string " -> ". Assume that room names will not contain -> and even ->. Whether it is up to you to clear the spaces around the name, we will not test with room names that start or end with whitespace.
+That is, the row starts with the string `"- "`, and individual rooms are separated by the string `" -> "`. Assume that room names will not contain `->` and even `->`. Whether it is up to you to clear the spaces around the name, we will not test with room names that start or end with whitespace.
 
-As you may remember, feed the hashed content of this line to set_link. If the direction is not one of North/South/East/West, we expect an Errors::DirectionParseError with the string you are trying to parse into a direction. If there is any error in the format of this line, LineParseError with the corresponding line number.
+As you may remember, feed the hashed content of this line to `set_link`. If the direction is not one of North/South/East/West, we expect an `Errors::DirectionParseError` with the string you are trying to parse into a direction. If there is any error in the format of this line, `LineParseError` with the corresponding line number.
 
-If set_link returns an error, we expect you to return it from this function.
+If `set_link` returns an error, we expect you to return it from this function.
 
-In case the function is passed an empty reader, we expect a LineParseError with line number 0.
+In case the function is passed an empty reader, we expect a `LineParseError` with line number 0.
 
-Here's the prototype of a helper function that we won't test directly (it's not pub, we won't call it in the tests), but it might make your life easier:
+Here's the prototype of a helper function that we won't test directly (it's not `pub`, we won't call it in the tests), but it might make your life easier:
 
 ```
 /// match_prefix("- ", "- Foo") //=> Some("Foo")
@@ -234,23 +234,22 @@ What algorithm to use? Whatever you want -- we won't check the result path direc
 - Is it a road -- each room must have a direct connection to the next in some direction
 - Are the start and end the right rooms
 
-Something easy you can use is Breadth-first search. The algorithm is pretty well described on wikipedia, although there is no logic to find the full path, only the node is found. They mention that you can hold parents, but don't show where it fits in the code. Here's a summary:
+Something easy you can use is [Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search). The algorithm is pretty well described on wikipedia, although there is no logic to find the full path, only the node is found. They mention that you can hold parents, but don't show where it fits in the code. Here's a summary:
 
-1. You prepare a queue in which you put the initial room (the queue can be a vector, or there may be another suitable structure in std::collections that will work for you)
-2. You mark the starting room as "visited" (maybe in a vector of visited rooms, maybe something else from std::collections)
-3. You prepare a HashMap of links from a room to its parent.
+1. You prepare a queue in which you put the initial room (the queue can be a vector, or there may be another suitable structure in [std::collections](https://doc.rust-lang.org/stable/std/collections/index.html) that will work for you)
+2. You mark the starting room as "visited" (maybe in a vector of visited rooms, maybe something else from [std::collections](https://doc.rust-lang.org/stable/std/collections/index.html))
+3. You prepare a `HashMap` of links from a room to its parent.
 4. You start pulling rooms from the end of the visit queue while there are rooms in it:
    - If you reach the end room, you may end the cycle
    - If not, you go through all the neighbors of a room, note that their parent is the current one, mark them as "visited" and add them to the top of the queue.
 5. We have completed the cycle. Is there a parent marked for the end room?
-   - If not, then we haven't reached the end room, we can safely return Ok(None)
+   - If not, then we haven't reached the end room, we can safely return `Ok(None)`
    - If so, we must construct our way back to the beginning, parent by parent. We start with the end room and its parent, and we put them into a vector, we keep taking the front parent and the front parent until we get to a room with no parent -- that will be the starting one. We return the path in "straight" order -- start to end room.
 
 If it seems disturbingly complicated -- try it, go step by step, it will work. If it seems boringly simple, by all means implement whatever search interests you.
 
 ## Advices
 
-- There is a lot of error handling that can be simplified by using some methods from Result or from Option.
+- There is a lot of error handling that can be simplified by using some methods from `Result` or from `Option`. Feel free to review the [Documentation](https://doc.rust-lang.org/stable/std/option/enum.Option.html)
 - Nothing prevents us from finding a path from one room to the same room -- it's just a path with that one room. Also, there will be nothing surprising in that there will be a cycle of rooms. If you implement the above algorithm, you shouldn't have any problems, but it's definitely a good idea to test.
 - HashMap is an incredibly convenient structure that is used for a great many things and is built-in in many languages. It's a dictionary where the key is something that implements the Hash trait (very often a String) and the value can be anything. The documentation has great examples, but we might as well do a bonus demo video where we show use.
-- 
